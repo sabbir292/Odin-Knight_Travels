@@ -1,8 +1,8 @@
-const createBoard = ()=>{
+const createBoard = () => {
     let boardArr = []
-    for (let i = 0; i < 8; i++){
-        for(let j = 0; j < 8; j ++){
-            boardArr.push([i,j])
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            boardArr.push([i, j])
         }
     }
     return boardArr
@@ -10,12 +10,12 @@ const createBoard = ()=>{
 const board = createBoard()
 console.log(board)
 
-const isValidMoves = (move) =>{
-    if((move[0] >= 0 && move[0] <= 7) && (move[1] >= 0 && move[1] <= 7)) return true
+const isValidMoves = (move) => {
+    if ((move[0] >= 0 && move[0] <= 7) && (move[1] >= 0 && move[1] <= 7)) return true
     else return false
 }
 
-console.log(isValidMoves([0,5]))
+console.log(isValidMoves([0, 5]))
 
 const getPossibleMoves = (initial, movesArr = []) => {
     let move1 = [initial[0] + 2, initial[1] + 1]
@@ -27,46 +27,46 @@ const getPossibleMoves = (initial, movesArr = []) => {
     let move7 = [initial[0] - 1, initial[1] + 2]
     let move8 = [initial[0] + 1, initial[1] + 2]
 
-    if(isValidMoves(move1)) movesArr.push(move1)
-    if(isValidMoves(move2)) movesArr.push(move2)
-    if(isValidMoves(move3)) movesArr.push(move3)
-    if(isValidMoves(move4)) movesArr.push(move4)
-    if(isValidMoves(move5)) movesArr.push(move5)
-    if(isValidMoves(move6)) movesArr.push(move6)
-    if(isValidMoves(move7)) movesArr.push(move7)
-    if(isValidMoves(move8)) movesArr.push(move8)
+    if (isValidMoves(move1)) movesArr.push(move1)
+    if (isValidMoves(move2)) movesArr.push(move2)
+    if (isValidMoves(move3)) movesArr.push(move3)
+    if (isValidMoves(move4)) movesArr.push(move4)
+    if (isValidMoves(move5)) movesArr.push(move5)
+    if (isValidMoves(move6)) movesArr.push(move6)
+    if (isValidMoves(move7)) movesArr.push(move7)
+    if (isValidMoves(move8)) movesArr.push(move8)
     return movesArr
 }
-console.log(getPossibleMoves([0,0]))
+console.log(getPossibleMoves([0, 0]))
 
-const getGrapthList = (board, graphList = []) =>{
-    board.map(item=>{
+const getGraphList = (board, graphList = []) => {
+    board.map(item => {
         graphList.push(getPossibleMoves(item))
     })
     return graphList
 }
-console.log(getGrapthList(board))
+console.log(getGraphList(board))
 
 const isEqual = (arr1, arr2) => {
-    if(arr1.length !== arr2.length){
-       return false
+    if (arr1.length !== arr2.length) {
+        return false
     }
-    
-    for(let i = 0; i < arr1.length; i ++){
-        if(arr1[i] !== arr2[i] || arr1[i+1] !== arr2[i+1]){
-           return false
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i] || arr1[i + 1] !== arr2[i + 1]) {
+            return false
         }
         return true
     }
 }
-const getIndex = (target) =>{
- for(let i = 0; i < board.length; i ++){
-    let index = isEqual(target, board[i])
-    if(index) return i
-    else continue
- }
+const getIndex = (target) => {
+    for (let i = 0; i < board.length; i++) {
+        let index = isEqual(target, board[i])
+        if (index) return i
+        else continue
+    }
 }
-console.log(getIndex([0,1]))
+console.log(getIndex([0, 1]))
 
 // const knightMoves = (origin, target, graph = getGrapthList(board)) => {
 //     const path = []
@@ -83,44 +83,44 @@ console.log(getIndex([0,1]))
 //     }
 //     return path
 // }
-const hasVisited = (node, data) =>{
-    for(let i = 0; i < data.length; i++ ){
+const hasVisited = (node, data) => {
+    for (let i = 0; i < data.length; i++) {
         const [a, b] = node
         const [x, y] = data[i]
-        
-        if(a === x && b === y) return true
+
+        if (a === x && b === y) return true
     }
     return false
 }
-const knightMoves = (origin, target, graph = getGrapthList(board))=> {
-    let [x,y] = target
-    
-    const que = [ origin ]
+const knightMoves = (origin, target, graph = getGraphList(board)) => {
+    let [x, y] = target
+
+    const que = [{ currentPosition: origin, path: [origin] }]
     const visitedNodes = []
-    const path = []
-    console.log(visitedNodes)
-    
-    while (que.length > 0){
-        const current = que.shift()
-        visitedNodes.push(current)
-        let [a,b] = current
 
-        if(a === x && b === y) return true
+    while (que.length > 0) {
+        const { currentPosition, path } = que.shift()
+        visitedNodes.push(currentPosition)
+        let [a, b] = currentPosition
 
-        else{
-            const idx = getIndex(current)
+        if (a === x && b === y) return path
+
+        else {
+            const idx = getIndex(currentPosition)
             const moves = graph[idx]
 
             moves.map(move => {
-                if(!hasVisited(move, visitedNodes)){
-                    que.push(move)
+                if (!hasVisited(move, visitedNodes)) {
+                    que.push({
+                        currentPosition: move,
+                        path: [...path, move]
+                    })
                 }
-            })           
+            })
         }
     }
     return false
 }
 
-console.log(knightMoves([0,0],[3,3]))
-
+console.log(knightMoves([0, 0], [7, 5]))
 
