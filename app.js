@@ -65,6 +65,7 @@ const getIndex = (target) => {
         if (index) return i
         else continue
     }
+    return false
 }
 console.log(getIndex([0, 1]))
 
@@ -107,20 +108,23 @@ const knightMoves = (origin, target, graph = getGraphList(board)) => {
 
         else {
             const idx = getIndex(currentPosition)
-            const moves = graph[idx]
-
-            moves.map(move => {
-                if (!hasVisited(move, visitedNodes)) {
-                    que.push({
-                        currentPosition: move,
-                        path: [...path, move]
-                    })
-                }
-            })
+            if(!idx) return "Invalid Origin"
+            else{
+                const moves = graph[idx]
+    
+                moves.map(move => {
+                    if (!hasVisited(move, visitedNodes)) {
+                        que.push({
+                            currentPosition: move,
+                            path: [...path, move]
+                        })
+                    }
+                })
+            }
         }
     }
     return false
 }
 
-console.log(knightMoves([0, 0], [7, 5]))
+console.log(knightMoves([1,7], [7, 5]))
 
