@@ -9,3 +9,13 @@ const createBoard = () => {
 }
 const board = createBoard()
 console.log(board)
+
+
+
+const isValidMoves = (move) => {
+    if ((move[0] >= 0 && move[0] <= 7) && (move[1] >= 0 && move[1] <= 7)) return true
+    else return false
+}
+
+console.log(isValidMoves([0, 5]))
+
