@@ -82,4 +82,13 @@ const isEqual = (arr1, arr2) => {
     }
 }
 
+// hasVisited checks if a node is visited or not, here the data parameter is a array that contains the visited nodes, 
+const hasVisited = (node, data) => {
+    for (let i = 0; i < data.length; i++) {
+        const [a, b] = node
+        const [x, y] = data[i]
 
+        if (a === x && b === y) return true
+    }
+    return false
+}
