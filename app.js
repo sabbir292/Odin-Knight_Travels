@@ -67,3 +67,19 @@ const getIndex = (target) => {
 }
 
 console.log(getIndex([0, 1]))
+
+//checks if two given moves are equal or not.
+const isEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) {
+        return false
+    }
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i] || arr1[i + 1] !== arr2[i + 1]) {
+            return false
+        }
+        return true
+    }
+}
+
+
