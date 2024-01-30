@@ -19,3 +19,26 @@ const isValidMoves = (move) => {
 
 console.log(isValidMoves([0, 5]))
 
+
+// take a move as an parameter and return array with it's possible moves.
+const getPossibleMoves = (initial, movesArr = []) => {
+    let move1 = [initial[0] + 2, initial[1] + 1]
+    let move2 = [initial[0] + 2, initial[1] - 1]
+    let move3 = [initial[0] + 1, initial[1] - 2]
+    let move4 = [initial[0] - 1, initial[1] - 2]
+    let move5 = [initial[0] - 2, initial[1] - 1]
+    let move6 = [initial[0] - 2, initial[1] + 1]
+    let move7 = [initial[0] - 1, initial[1] + 2]
+    let move8 = [initial[0] + 1, initial[1] + 2]
+
+    if (isValidMoves(move1)) movesArr.push(move1)
+    if (isValidMoves(move2)) movesArr.push(move2)
+    if (isValidMoves(move3)) movesArr.push(move3)
+    if (isValidMoves(move4)) movesArr.push(move4)
+    if (isValidMoves(move5)) movesArr.push(move5)
+    if (isValidMoves(move6)) movesArr.push(move6)
+    if (isValidMoves(move7)) movesArr.push(move7)
+    if (isValidMoves(move8)) movesArr.push(move8)
+    return movesArr
+}
+console.log(getPossibleMoves([0, 0]))
