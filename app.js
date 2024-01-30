@@ -92,3 +92,44 @@ const hasVisited = (node, data) => {
     }
     return false
 }
+
+
+
+const knightMoves = (origin, target, graph = getGraphList(board)) => {
+    let [x, y] = target
+    // que tracks the current position, also the previous position when a child node is added to it.
+
+    const que = [{ currentPosition: origin, path: [origin] }]
+    const visitedNodes = []
+
+    while (que.length > 0) {
+        const { currentPosition, path } = que.shift()
+        visitedNodes.push(currentPosition)
+        let [a, b] = currentPosition
+
+        if (a === x && b === y) return path
+
+        else {
+            const idx = getIndex(currentPosition)
+            if(!idx) return "Invalid Origin"
+            else{
+                //gets the possible moves with the help of the index form the grap adjacency list.
+                const moves = graph[idx]
+
+                moves.map(move => {
+                    if (!hasVisited(move, visitedNodes)) {
+
+                        que.push({
+                            currentPosition: move,
+                            //appends the move in the path, path contains all of it's parent moves..
+                            path: [...path, move]
+                        })
+                    }
+                })
+            }
+        }
+    }
+    return false
+}
+
+console.log(knightMoves([1,7], [7, 5]))
